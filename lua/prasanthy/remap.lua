@@ -12,6 +12,14 @@ end, { desc = "view nvim tree" })
 
 vim.keymap.set("n", "<leader>pv", "<C-w>w", { desc = "toggle tree buffer" })
 
+vim.keymap.set("n", "<leader>th", function()
+    vim.cmd("Themery")
+end, { desc = "switch theme" })
+
+vim.keymap.set("n", "<leader>gs", function()
+    vim.cmd("Neogit")
+end, { desc = "git plugin" })
+
 -- View project (either through standard :Ex or nvim tree)
 -- make current file executable (for source)
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", 
