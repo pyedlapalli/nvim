@@ -1,33 +1,39 @@
 vim.g.mapleader = " "
 
+---- Plugin keymaps ----
+
 -- Open Lazy plugin manager
 vim.keymap.set("n", "<leader>;", function()
     vim.cmd("Lazy")
 end)
 
--- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Project View" })
-vim.keymap.set("n", "<leader>bb",function()
-    vim.cmd("NvimTreeToggle")
-end, { desc = "view nvim tree" })
-
+-- nvim tree
+vim.keymap.set("n", "<leader>bb",function() vim.cmd("NvimTreeFocus") end, { desc = "focus on nvim tree" })
 vim.keymap.set("n", "<leader>pv", "<C-w>w", { desc = "toggle tree buffer" })
 
-vim.keymap.set("n", "<leader>th", function()
-    vim.cmd("Themery")
-end, { desc = "switch theme" })
-
+-- neogit
 vim.keymap.set("n", "<leader>gs", function()
     vim.cmd("Neogit")
 end, { desc = "git plugin" })
 
--- View project (either through standard :Ex or nvim tree)
--- make current file executable (for source)
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", 
-    {
-        desc = "make current file executable",
-        silent = true 
-    }
+-- telescope
+vim.keymap.set("n", "<leader>pf", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
+vim.keymap.set("n", "<leader>pw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" })
+vim.keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<CR>", { desc = "telescope find buffers" })
+vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
+vim.keymap.set("n", "<leader>pm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
+vim.keymap.set("n", "<leader>pc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
+vim.keymap.set("n", "<leader>ps", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
+vim.keymap.set("n", "<leader>th", "<cmd>Telescope colorscheme enable_preview=true<CR>", { desc = "telescope nvchad themes" })
+vim.keymap.set(
+  "n",
+  "<leader>fa",
+  "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+  { desc = "telescope find all files" }
 )
+
+
+---- Custom keymaps ----
 
 -- source current file
 vim.keymap.set("n", "<leader><leader>", function()
@@ -51,8 +57,8 @@ vim.keymap.set("n", "<leader>n", function()
     vim.cmd("noh")
 end)
 
--- preserve copied text when pasting on highlighted word
-vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "special reg paste" })
+-- preserve copied leader when pasting on highlighted word
+vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "special reg paste" })
 
 -- paste into system clipboard
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]], { desc = "paste to clipboard" })
@@ -70,3 +76,10 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 --replace word that cursor is on
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "replace current word" })
 
+-- make current file executable (for source)
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", 
+    {
+        desc = "make current file executable",
+        silent = true 
+    }
+)
