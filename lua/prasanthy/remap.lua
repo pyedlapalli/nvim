@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 
 -- Open Lazy plugin manager
-vim.keymap.set("n", "<leader>;", function() vim.cmd("Lazy") end)
+vim.keymap.set("n", "<leader>;", function() vim.cmd("Lazy") end, { desc = "open plugin manager" })
 
 -- source current fil
 vim.keymap.set("n", "<leader><leader>", function() vim.cmd("so") end, { desc = "source file" })
@@ -24,7 +24,7 @@ vim.keymap.set("n", "<leader>h", function() vim.cmd("noh") end, { desc = "clear 
 --replace word that cursor is on
 vim.keymap.set("n", "<leader>ra", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "replace current word in file" })
 
--- poeserve copied leader when pasting on highlighted word
+-- preserve copied leader when pasting on highlighted word
 vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "special reg paste" })
 
 -- paste into system clipboard
