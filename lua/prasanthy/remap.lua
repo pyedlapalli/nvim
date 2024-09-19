@@ -24,7 +24,7 @@ vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "tele
 vim.keymap.set("n", "<leader>pm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
 vim.keymap.set("n", "<leader>pc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
 vim.keymap.set("n", "<leader>ps", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
-vim.keymap.set("n", "<leader>th", "<cmd>Telescope colorscheme enable_preview=true<CR>", { desc = "telescope nvchad themes" })
+vim.keymap.set("n", "<leader>th", "<cmd>Telescope colorscheme enable_preview=true<CR>", { desc = "telescope themes" })
 vim.keymap.set(
   "n",
   "<leader>fa",
@@ -55,9 +55,12 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- clear search highlight
 vim.keymap.set("n", "<leader>n", function()
     vim.cmd("noh")
-end)
+end, { desc = "clear search highlight" })
 
--- preserve copied leader when pasting on highlighted word
+--replace word that cursor is on
+vim.keymap.set("n", "<leader>ra", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "replace current word in file" })
+
+-- poeserve copied leader when pasting on highlighted word
 vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "special reg paste" })
 
 -- paste into system clipboard
@@ -72,9 +75,6 @@ vim.keymap.set("n", "<Cd-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
-
---replace word that cursor is on
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "replace current word" })
 
 -- make current file executable (for source)
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", 
