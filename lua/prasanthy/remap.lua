@@ -1,44 +1,10 @@
 vim.g.mapleader = " "
 
----- Plugin keymaps ----
-
 -- Open Lazy plugin manager
-vim.keymap.set("n", "<leader>;", function()
-    vim.cmd("Lazy")
-end)
+vim.keymap.set("n", "<leader>;", function() vim.cmd("Lazy") end)
 
--- nvim tree
-vim.keymap.set("n", "<leader>nt",function() vim.cmd("NvimTreeToggle") end, { desc = "toggle nvim tree" })
-vim.keymap.set("n", "<leader>nf",function() vim.cmd("NvimTreeFocus") end, { desc = "focus nvim tree" })
-
--- neogit
-vim.keymap.set("n", "<leader>ng", function()
-    vim.cmd("Neogit")
-end, { desc = "git plugin" })
-
--- telescope
-vim.keymap.set("n", "<leader>pf", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" })
-vim.keymap.set("n", "<leader>pw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" })
-vim.keymap.set("n", "<leader>pb", "<cmd>Telescope buffers<CR>", { desc = "telescope find buffers" })
-vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" })
-vim.keymap.set("n", "<leader>pm", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" })
-vim.keymap.set("n", "<leader>pc", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" })
-vim.keymap.set("n", "<leader>ps", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" })
-vim.keymap.set("n", "<leader>th", "<cmd>Telescope colorscheme enable_preview=true<CR>", { desc = "telescope themes" })
-vim.keymap.set(
-  "n",
-  "<leader>fa",
-  "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-  { desc = "telescope find all files" }
-)
-
-
----- Custom keymaps ----
-
--- source current file
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end, { desc = "source file" })
+-- source current fil
+vim.keymap.set("n", "<leader><leader>", function() vim.cmd("so") end, { desc = "source file" })
 
 -- move blocks of code up/down in visual mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -53,9 +19,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- clear search highlight
-vim.keymap.set("n", "<leader>n", function()
-    vim.cmd("noh")
-end, { desc = "clear search highlight" })
+vim.keymap.set("n", "<leader>h", function() vim.cmd("noh") end, { desc = "clear search highlight" })
 
 --replace word that cursor is on
 vim.keymap.set("n", "<leader>ra", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "replace current word in file" })
@@ -77,9 +41,4 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- make current file executable (for source)
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", 
-    {
-        desc = "make current file executable",
-        silent = true 
-    }
-)
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "make current file executable", silent = true })

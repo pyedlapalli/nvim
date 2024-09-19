@@ -1,4 +1,5 @@
 return {
+
     "theprimeagen/vim-be-good",
 
     dependencies = {
