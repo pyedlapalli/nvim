@@ -8,8 +8,8 @@ vim.keymap.set("n", "<leader>;", function()
 end)
 
 -- nvim tree
-vim.keymap.set("n", "<leader>pv",function() vim.cmd("NvimTreeFocus") end, { desc = "focus nvim tree" })
-vim.keymap.set("n", "<C-p>", vim.cmd("NvimTreeToggle"), { desc = "toggle nvim tree" })
+vim.keymap.set("n", "<leader>nt",function() vim.cmd("NvimTreeToggle") end, { desc = "toggle nvim tree" })
+vim.keymap.set("n", "<leader>nf",function() vim.cmd("NvimTreeFocus") end, { desc = "focus nvim tree" })
 
 -- neogit
 vim.keymap.set("n", "<leader>ng", function()
