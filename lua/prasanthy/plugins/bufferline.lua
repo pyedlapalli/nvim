@@ -26,8 +26,8 @@ return{
             }
         })
 
-        vim.keymap.set("n", "<leader>bp", "<cmd>bprev<CR>", { desc = "prev buffer" })
-        vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "next buffer" })
+        vim.keymap.set("n", "<leader>bf", "<cmd>bprev<CR>", { desc = "prev buffer" })
+        vim.keymap.set("n", "<leader>bb", "<cmd>bnext<CR>", { desc = "next buffer" })
         vim.keymap.set("n", "<leader>bec", function() vim.cmd("bdelete") vim.cmd("bnext") end, { desc = "erase curr buffer" })
         vim.keymap.set("n", "<leader>ber", "<cmd>%bdelete<CR>", { desc = "erase all buffers" })
     end
