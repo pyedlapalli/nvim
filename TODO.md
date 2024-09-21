@@ -7,3 +7,7 @@
 3. Install an lsp for the sweet autocompletion
 
 4. Somehow set default colorscheme, or get Telescope colorscheme switcher to set the default colorscheme (use cyberdream as full default for now)
+
+5. Finish surround nvim install
+
+6. Remap buffer remappings to use barbar builtin function
