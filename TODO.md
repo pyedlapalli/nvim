@@ -10,4 +10,4 @@
 
 5. Finish surround nvim install
 
-6. Remap buffer remappings to use barbar builtin function
+6. Remap buffer remappings to use barbar builtin function (DONE)
