@@ -7,6 +7,7 @@ return {
     end
 
     -- Notes for keymaps --
-    -- add, delete, change
-    -- ys{motion}{char}, ds{char}, and cs{target}{replacement}
+    -- add: ys{motion}{char}
+    -- delete: ds{char}
+    -- change: cs{target}{replacement}
 }

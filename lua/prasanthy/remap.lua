@@ -1,7 +1,8 @@
 vim.g.mapleader = " "
 
 -- Open Lazy plugin manager
-vim.keymap.set("n", "<leader>;", function() vim.cmd("Lazy") end, { desc = "open plugin manager" })
+vim.keymap.set("n", "<leader>;l", function() vim.cmd("Lazy") end, { desc = "open lazy plugin manager" })
+vim.keymap.set("n", "<leader>;m", function() vim.cmd("Mason") end, { desc = "open mason lsp manager" })
 
 -- source current fil
 vim.keymap.set("n", "<leader><leader>", function() vim.cmd("so") end, { desc = "source file" })
@@ -9,6 +10,10 @@ vim.keymap.set("n", "<leader><leader>", function() vim.cmd("so") end, { desc = "
 -- move blocks of code up/down in visual mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- always center cursor when scrolling
+vim.keymap.set({"n", "v"}, "j", "jzz")
+vim.keymap.set({"n", "v"}, "k", "kzz")
 
 -- center cursor on screen when doing half page up/down
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
