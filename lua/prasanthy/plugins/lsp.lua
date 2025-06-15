@@ -31,7 +31,7 @@ return {
       --- Mason Setup ---
       require('mason').setup({})
       require('mason-lspconfig').setup({
-          ensure_installed = {'lua_ls', 'rust_analyzer', 'jdtls'},
+          ensure_installed = {'lua_ls', 'clangd', 'rust_analyzer', 'jdtls', 'json'},
           handlers = {
               -- this first function is the "default handler"
               -- it applies to every language server without a "custom handler"
@@ -48,7 +48,7 @@ return {
                           lsp_zero.nvim_lua_settings(client, {})
                       end,
                   })
-              end,
+              end
           }
       })
 
