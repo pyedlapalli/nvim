@@ -1,9 +1,5 @@
 vim.g.mapleader = " "
 
--- Open Lazy plugin manager
-vim.keymap.set("n", "<leader>;l", function() vim.cmd("Lazy") end, { desc = "open lazy plugin manager" })
-vim.keymap.set("n", "<leader>;m", function() vim.cmd("Mason") end, { desc = "open mason lsp manager" })
-
 -- source current fil
 vim.keymap.set("n", "<leader><leader>", function() vim.cmd("so") end, { desc = "source file" })
 

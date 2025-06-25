@@ -14,7 +14,6 @@ return {
 
   config = function()
       require('neogit').setup()
-      vim.keymap.set("n", "<leader>ng", function() vim.cmd("Neogit") end, { desc = "git plugin" })
   end
 
 }
