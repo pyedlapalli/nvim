@@ -28,10 +28,21 @@ return {
           sign_text = true,
       })
 
+      lsp_zero.setup()
+
+      vim.diagnostic.config({
+          signs = true,
+          update_in_insert = false,
+          underline = true,
+          severity_sort = false,
+          float = true,
+          virtual_text = true,
+      })
+
       --- Mason Setup ---
       require('mason').setup({})
       require('mason-lspconfig').setup({
-          ensure_installed = {'lua_ls', 'clangd', 'rust_analyzer', 'jdtls', 'json'},
+          ensure_installed = {'lua_ls', 'clangd', 'rust_analyzer', 'jdtls', 'jsonls'},
           handlers = {
               -- this first function is the "default handler"
               -- it applies to every language server without a "custom handler"
