@@ -11,8 +11,6 @@ return{
 
     opts = {},
 
-    version = '^1.0.0',
-
     config = function()
         require('barbar').setup({
             sidebar_filetypes = {

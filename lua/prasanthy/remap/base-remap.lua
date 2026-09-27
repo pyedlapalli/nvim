@@ -1,7 +1,14 @@
 vim.g.mapleader = " "
 
--- source current fil
-vim.keymap.set("n", "<leader><leader>", function() vim.cmd("so") end, { desc = "source file" })
+-- source current file (only if it's actually vim/lua config)
+vim.keymap.set("n", "<leader><leader>", function()
+    local ft = vim.bo.filetype
+    if ft == "lua" or ft == "vim" then
+        vim.cmd("source %")
+    else
+        vim.notify("Not a lua/vim file, skipping source", vim.log.levels.WARN)
+    end
+end, { desc = "source file" })
 
 -- move blocks of code up/down in visual mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")

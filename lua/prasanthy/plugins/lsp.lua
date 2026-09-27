@@ -7,9 +7,7 @@ return {
     {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
     -- Autocompletion
-    {'hrsh7th/nvim-cmp'},     -- Required
-    {'hrsh7th/cmp-nvim-lsp'}, -- Required
-    {'L3MON4D3/LuaSnip'},     -- Required
+    'saghen/blink.cmp',
   },
 
   config = function ()
@@ -22,7 +20,7 @@ return {
       end
 
       lsp_zero.extend_lspconfig({
-          capabilities = require('cmp_nvim_lsp').default_capabilities(),
+          capabilities = require('blink.cmp').get_lsp_capabilities(),
           lsp_attach = lsp_attach,
           float_border = 'rounded',
           sign_text = true,
@@ -42,7 +40,7 @@ return {
       --- Mason Setup ---
       require('mason').setup({})
       require('mason-lspconfig').setup({
-          ensure_installed = {'lua_ls', 'clangd', 'rust_analyzer', 'jdtls', 'jsonls'},
+          ensure_installed = {'lua_ls', 'clangd', 'rust_analyzer', 'jdtls', 'jsonls', 'gopls'},
           handlers = {
               -- this first function is the "default handler"
               -- it applies to every language server without a "custom handler"
@@ -61,27 +59,6 @@ return {
                   })
               end
           }
-      })
-
-      --- Completion setup ---
-      local cmp = require('cmp')
-      local cmp_format = require('lsp-zero').cmp_format()
-
-      cmp.setup({
-          sources = {
-              {name = 'nvim_lsp'},
-          },
-          mapping = cmp.mapping.preset.insert({
-              -- scroll up and down the documentation window
-              ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-              ['<C-d>'] = cmp.mapping.scroll_docs(4),
-          }),
-          formatting = cmp_format,
-          snippet = {
-              expand = function(args)
-                  require('luasnip').lsp_expand(args.body)
-              end,
-          },
       })
   end
 }
