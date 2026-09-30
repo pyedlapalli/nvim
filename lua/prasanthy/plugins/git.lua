@@ -13,7 +13,7 @@ return {
   },
 
   config = function()
-      require('neogit').setup()
+      require('neogit').setup({})
   end
 
 }
