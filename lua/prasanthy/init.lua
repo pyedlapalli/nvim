@@ -2,4 +2,4 @@ require("prasanthy.remap")
 require("prasanthy.options")
 require("prasanthy.lazy" )
 
-vim.cmd.colorscheme("everforest")
+vim.cmd.colorscheme("tokyonight-storm")
