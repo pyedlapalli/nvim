@@ -45,8 +45,13 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]], { desc = "special delete" })
 -- quick fix centering behavior
 vim.keymap.set("n", "<Cd-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- make current file executable (for source)
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "make current file executable", silent = true })
+
+-- reindent whole file while preserving cursor position
+vim.keymap.set("n", "<leader>=", function()
+    local view = vim.fn.winsaveview()
+    vim.cmd("normal! gg=G")
+    vim.fn.winrestview(view)
+end, { desc = "reindent whole file" })
