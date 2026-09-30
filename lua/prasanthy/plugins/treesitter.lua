@@ -1,13 +1,21 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
     config = function ()
-      local configs = require("nvim-treesitter.configs")
+      local ensure_installed = { "c", "cpp", "cmake", "make", "lua", "vim", "vimdoc", "markdown", "query", "javascript", "html", "java", "python", "ruby", "xml", "yaml", "zig" }
 
-      configs.setup({
-          ensure_installed = { "c", "cpp", "cmake", "make", "lua", "vim", "vimdoc", "markdown", "query", "javascript", "html", "java", "python", "ruby", "xml", "yaml" },
-          sync_install = false,
-          highlight = { enable = true },
-        })
+      require("nvim-treesitter").install(ensure_installed)
+
+      local filetypes = vim.deepcopy(ensure_installed)
+      table.insert(filetypes, "help") -- vimdoc parser attaches to the help filetype
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = filetypes,
+        callback = function ()
+          vim.treesitter.start()
+        end,
+      })
     end
 }
