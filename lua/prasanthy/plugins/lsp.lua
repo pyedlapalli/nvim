@@ -120,6 +120,27 @@ return {
                           },
                       },
                   })
+              end,
+              rust_analyzer = function()
+                  require('lspconfig').rust_analyzer.setup({
+                      -- sysroot (std) manifests use nightly-only cargo features; rust-analyzer's
+                      -- own `cargo metadata` calls fail on stable cargo without this
+                      cmd_env = { RUSTC_BOOTSTRAP = "1" },
+                      settings = {
+                          ["rust_analyzer"] = {
+                              diagnostics = {
+                                  disabled = { "unlinked-file" },
+                              },
+                              inlayHints = {
+                                  typeHints = { enable = true },
+                                  parameterHints = { enable = true },
+                                  chainingHints = { enable = true },
+                                  closingBraceHints = { enable = true },
+                              },
+                              lens = { enable = false },
+                          },
+                      },
+                  })
               end
           }
       })
