@@ -7,7 +7,7 @@ return {
     {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
     -- Autocompletion
-    'saghen/blink.cmp',
+    'saghen/blink.cmp'
   },
 
   config = function ()
@@ -48,9 +48,50 @@ return {
           end)
       end
 
-      local lsp_attach = function(_, bufnr)
+      -- mimics VSCode's cmd+click: jump to the definition, or if the cursor
+      -- is already on the definition, show references instead
+      local function definition_or_references()
+          local params = vim.lsp.util.make_position_params(0, 'utf-16')
+          vim.lsp.buf_request_all(0, 'textDocument/definition', params, function(results)
+              local cur_uri = vim.uri_from_bufnr(0)
+              local cur = vim.api.nvim_win_get_cursor(0)
+              local cur_line, cur_col = cur[1] - 1, cur[2]
+
+              for _, res in pairs(results) do
+                  local locs = res.result
+                  if locs and not vim.islist(locs) then locs = { locs } end
+                  for _, loc in ipairs(locs or {}) do
+                      local uri = loc.uri or loc.targetUri
+                      local range = loc.range or loc.targetSelectionRange
+                      local s, e = range.start, range['end']
+                      local on_def = uri == cur_uri
+                          and (cur_line > s.line or (cur_line == s.line and cur_col >= s.character))
+                          and (cur_line < e.line or (cur_line == e.line and cur_col <= e.character))
+                      if on_def then
+                          require('telescope.builtin').lsp_references({ include_declaration = false })
+                          return
+                      end
+                  end
+              end
+              vim.lsp.buf.definition()
+          end)
+      end
+
+      local lsp_attach = function(client, bufnr)
           lsp_zero.default_keymaps({buffer = bufnr})
-          vim.keymap.set('n', '<leader>k', hover_in_split, { buffer = bufnr, desc = 'Hover doc in split' })
+          vim.keymap.set('n', '<leader>k', function() vim.lsp.buf.hover({ border = 'rounded' }) end, { buffer = bufnr, desc = 'Hover doc in popup' })
+          vim.keymap.set('n', '<leader>K', hover_in_split, { buffer = bufnr, desc = 'Hover doc in split' })
+          vim.keymap.set('n', 'gd', definition_or_references, { buffer = bufnr, desc = 'Definition, or references if on definition' })
+          vim.keymap.set('n', 'gi', function() require('telescope.builtin').lsp_implementations() end, { buffer = bufnr, desc = 'Implementations' })
+          vim.keymap.set('n', '<leader>ih', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+          end, { buffer = bufnr, desc = 'Toggle inlay hints' })
+
+          -- inline type / parameter-name hints (the grey `: Vec2` annotations)
+          if client and client:supports_method('textDocument/inlayHint') then
+              vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
+          -- code lens is intentionally not enabled for any server
       end
 
       lsp_zero.extend_lspconfig({
@@ -61,6 +102,50 @@ return {
       })
 
       lsp_zero.setup()
+
+      --- LSP status messages in the command line ---
+      -- single-line, truncated to the window width so it never triggers
+      -- the "Press ENTER" prompt
+      local function status(msg)
+          local max = vim.o.columns - 12
+          if #msg > max then msg = msg:sub(1, max - 3) .. '...' end
+          vim.api.nvim_echo({ { msg } }, false, {})
+          vim.cmd('redraw')
+      end
+
+      vim.api.nvim_create_autocmd('FileType', {
+          pattern = { 'rust', 'lua', 'c', 'cpp', 'go', 'zig', 'json' },
+          callback = function(ev)
+              if #vim.lsp.get_clients({ bufnr = ev.buf }) == 0 then
+                  status('LSP: starting...')
+              end
+          end,
+      })
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+          callback = function(ev)
+              local client = vim.lsp.get_client_by_id(ev.data.client_id)
+              if client then status('LSP: ' .. client.name .. ' attached, indexing...') end
+          end,
+      })
+
+      vim.api.nvim_create_autocmd('LspProgress', {
+          callback = function(ev)
+              local client = vim.lsp.get_client_by_id(ev.data.client_id)
+              local value = ev.data.params.value
+              if not client or not value then return end
+              if value.kind == 'end' then
+                  status('LSP: ' .. client.name .. ' ready')
+                  return
+              end
+              -- value.message is often a long file path, so only show the
+              -- title and progress (percentage, or the "62/394" counter)
+              local progress = value.percentage and (value.percentage .. '%')
+                  or (value.message and value.message:match('^%d+/%d+'))
+              local parts = { 'LSP: ' .. client.name, value.title, progress }
+              status(table.concat(vim.tbl_filter(function(p) return p and p ~= '' end, parts), ' - '))
+          end,
+      })
 
       vim.diagnostic.config({
           signs = true,
@@ -117,6 +202,27 @@ return {
                               inlay_hints_show_variable_type_hints = true,
                               inlay_hints_show_parameter_name = true,
                               warn_style = true,
+                          },
+                      },
+                  })
+              end,
+              rust_analyzer = function()
+                  require('lspconfig').rust_analyzer.setup({
+                      -- sysroot (std) manifests use nightly-only cargo features; rust-analyzer's
+                      -- own `cargo metadata` calls fail on stable cargo without this
+                      cmd_env = { RUSTC_BOOTSTRAP = "1" },
+                      settings = {
+                          ["rust_analyzer"] = {
+                              diagnostics = {
+                                  disabled = { "unlinked-file" },
+                              },
+                              inlayHints = {
+                                  typeHints = { enable = true },
+                                  parameterHints = { enable = true },
+                                  chainingHints = { enable = true },
+                                  closingBraceHints = { enable = true },
+                              },
+                              lens = { enable = false },
                           },
                       },
                   })
