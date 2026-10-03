@@ -7,7 +7,7 @@ Personal Neovim configuration written in Lua, using [lazy.nvim](https://github.c
 Requires a recent Neovim (0.11+; the config uses `vim.lsp` APIs such as `vim.lsp.inlay_hint` and `client:supports_method`) and `git`.
 
 ```sh
-git clone <this-repo> ~/.config/nvim
+git clone https://github.com/pyedlapalli/nvim.git ~/.config/nvim
 nvim
 ```
 
@@ -23,8 +23,6 @@ lua/prasanthy/
   lazy.lua                    # lazy.nvim bootstrap; specs come from plugins/
   plugins/                    # one spec file per plugin/feature
   remap/                      # keymaps, grouped by area
-PluginList.txt                # plugins of interest
-TODO.md
 ```
 
 ## Plugins
